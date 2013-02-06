@@ -25,9 +25,9 @@ class Probe {
      * @param string    $event                  The event you want to track. You should track the signin event.
      * @param int       $eventTime              (optionnal) The unix timestamp of when the event is fired. If not set, we used the current time.
      */
-    function __construct($appId, $appSecret, $user, $registeredAt, $event = 'signin', $eventTime = null) {
-        $this->data['app'] = urlencode($appId);
-        $this->data['secret'] = urlencode($appSecret);
+    function __construct($applicationId, $applicationSecret, $user, $registeredAt, $event = 'signin', $eventTime = null) {
+        $this->data['app'] = urlencode($applicationId);
+        $this->data['secret'] = urlencode($applicationSecret);
         $this->data['user'] = urlencode($user);
         $this->data['registered_at'] = urlencode($registeredAt);
         $this->data['event'] = urlencode($event);
