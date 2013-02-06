@@ -104,7 +104,7 @@ class Probe {
 
         $out = "POST " . $parts['path'] . " HTTP/1.1\r\n";
         $out.= "Host: " . $parts['host'] . "\r\n";
-        $out.= "Content-Type: application/x-www-form-urlencoded\r\n";
+        $out.= $this->_headers;
         $out.= "Content-Length: " . strlen($post_string) . "\r\n";
         $out.= "Connection: Close\r\n\r\n";
         if (isset($post_string)){
