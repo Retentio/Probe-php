@@ -1,5 +1,6 @@
 <?php
 
+namespace Retentio\Probe;
 
 /**
  * This Probe is used to send your events to the Retent.io API
@@ -121,7 +122,7 @@ class Probe {
 
 }
 
-class RetentioException extends Exception {
+class RetentioException extends \Exception {
     
 }
 
