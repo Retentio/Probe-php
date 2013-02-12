@@ -88,24 +88,13 @@ class Probe {
     public function sendAsynch() {
         $post_string = http_build_query($this->data);
 
-        $parts = parse_url(self::ENDPOINT);
+        $cmd = "curl -X POST -H '" . $this->_headers[0] . "'";
+        $cmd.= " -d '" . $post_string . "' " . "'" . self::ENDPOINT . "'";
 
-        $out = "POST " . $parts['path'] . " HTTP/1.1\r\n";
-        $out.= "Host: " . $parts['host'] . "\r\n";
-        $out.= $this->_headers;
-        $out.= "Content-Length: " . strlen($post_string) . "\r\n";
-        $out.= "Connection: Close\r\n\r\n";
-        if (isset($post_string)){
-            $out.= $post_string;
-            $fp = @fsockopen($parts['host'], isset($parts['port']) ? $parts['port'] : 80, $errno, $errstr, 30);
-            if($fp){
-                fwrite($fp, $out);
-                fclose($fp);
-            }
-        }
-        
-        
-            
+        $cmd .= " > /dev/null 2>&1 &";
+
+        exec($cmd, $output, $exit);
+        return $exit == 0;
     }
 
 }
