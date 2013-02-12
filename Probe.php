@@ -12,7 +12,7 @@ class Probe {
     protected $_headers = array('Content-type: application/x-www-form-urlencoded;charset=UTF-8');
     protected $_userAgent = 'Retentio Probe 1.0';
     
-    private $data = [];
+    private $data = array();
 
     /**
      * 
