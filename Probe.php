@@ -49,20 +49,6 @@ class Probe {
     }
 
     /**
-     * 
-     * @return string The concatened string of all the params
-     */
-    private function toStringData() {
-        $fields = '';
-        //url-ify the data for the POST
-        foreach ($this->data as $key => $value) {
-            $fields .= $key . '=' . $value . '&';
-        }
-        rtrim($fields, '&');
-        return $fields;
-    }
-
-    /**
      * This method will send the event on a synch way
      * 
      * @throws RetentioException
@@ -76,7 +62,7 @@ class Probe {
         //set the url, number of POST vars, POST data
         curl_setopt($ch, CURLOPT_URL, self::ENDPOINT);
         curl_setopt($ch, CURLOPT_POST, 6);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $this->toStringData());
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($this->data));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $this->_headers);
         curl_setopt($ch, CURLOPT_HEADER, 0);
@@ -96,7 +82,7 @@ class Probe {
      * This method will send the event on an asynch way
      */
     public function sendAsynch() {
-        $post_string = $this->toStringData();
+        $post_string = http_build_query($this->data);
 
         $parts = parse_url(self::ENDPOINT);
 
