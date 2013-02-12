@@ -122,7 +122,7 @@ class Probe {
 
 }
 
-class RetentioException extends Exception {
+class RetentioException extends \Exception {
     
 }
 
