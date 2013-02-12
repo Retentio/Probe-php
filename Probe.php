@@ -6,12 +6,11 @@
  * @author Antoine Guiral <antoine@retent.io>
  */
 class Probe {
-    
+
     const ENDPOINT = 'http://tracker.retent.io/';
 
     protected $_headers = array('Content-type: application/x-www-form-urlencoded;charset=UTF-8');
     protected $_userAgent = 'Retentio Probe 1.0';
-    
     private $data = array();
 
     /**
@@ -31,20 +30,20 @@ class Probe {
         $this->data['event'] = urlencode($event);
         $this->data['event_time'] = urlencode(($eventTime) ? $eventTime : time());
     }
-    
+
     /**
      * 
      * @param int   $charge     If your event can be associated with a price, call this method to set it.
      */
-    public function setCharge($charge = 0){
+    public function setCharge($charge = 0) {
         $this->data['charge'] = urlencode($charge);
     }
-    
+
     /**
      * 
      * @param string    $email  If you want, you can send the user email. Currently not used (01/02/2013).
      */
-    public function setEmail($email = ''){
+    public function setEmail($email = '') {
         $this->data['email'] = urlencode($email);
     }
 
@@ -84,24 +83,13 @@ class Probe {
     public function sendAsynch() {
         $post_string = http_build_query($this->data);
 
-        $parts = parse_url(self::ENDPOINT);
+        $cmd = "curl -X POST -H '" . $this->_headers[0] . "'";
+        $cmd.= " -d '" . $post_string . "' " . "'" . self::ENDPOINT . "'";
 
-        $out = "POST " . $parts['path'] . " HTTP/1.1\r\n";
-        $out.= "Host: " . $parts['host'] . "\r\n";
-        $out.= $this->_headers;
-        $out.= "Content-Length: " . strlen($post_string) . "\r\n";
-        $out.= "Connection: Close\r\n\r\n";
-        if (isset($post_string)){
-            $out.= $post_string;
-            $fp = @fsockopen($parts['host'], isset($parts['port']) ? $parts['port'] : 80, $errno, $errstr, 30);
-            if($fp){
-                fwrite($fp, $out);
-                fclose($fp);
-            }
-        }
-        
-        
-            
+        $cmd .= " > /dev/null 2>&1 &";
+
+        exec($cmd, $output, $exit);
+        return $exit == 0;
     }
 
 }
