@@ -9,7 +9,7 @@ class Probe {
     
     const ENDPOINT = 'http://tracker.retent.io/';
 
-    protected $_headers = ['Content-type: application/x-www-form-urlencoded;charset=UTF-8'];
+    protected $_headers = array('Content-type: application/x-www-form-urlencoded;charset=UTF-8');
     protected $_userAgent = 'Retentio Probe 1.0';
     
     private $data = [];
